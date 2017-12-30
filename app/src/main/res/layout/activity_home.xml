@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/base_bg"
+    tools:context="com.jackli.www.okplayer.ui.activities.HomeActivity">
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="50dp" />
+
+
+    <!--导航栏背景颜色-->
+
+    <ImageView
+        android:id="@+id/title_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@mipmap/base_titlebar_bg"
+        android:contentDescription="@string/title_bg"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--导航栏视频-->
+    <TextView
+        android:id="@+id/video"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/titlte_video"
+        android:gravity="center_horizontal"
+        android:text="@string/title_video"
+        android:textColor="@drawable/title_text_bg"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/title_bg"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/audio"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--导航栏音乐-->
+    <TextView
+        android:id="@+id/audio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/titlte_music"
+        android:gravity="center_horizontal"
+        android:text="@string/title_music"
+        android:textColor="@drawable/title_text_bg"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/title_bg"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/video"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1" />
+
+    <!--导航栏指示器-->
+    <View
+        android:id="@+id/indicate"
+        android:layout_width="150dp"
+        android:layout_height="2dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toBottomOf="@id/title_bg"
+        app:layout_constraintBottom_toTopOf="@+id/guideline" />
+
+
+    <!--导航栏下展示具体内容-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/home_viewpager"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/home_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintVertical_weight="1" />
+
+
+</android.support.constraint.ConstraintLayout>

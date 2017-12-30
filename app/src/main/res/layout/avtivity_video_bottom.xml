@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_ll_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--进度条-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_video_duration_control"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!--已播放时间-->
+        <TextView
+            android:id="@+id/video_tv_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"
+            android:textColor="@color/white_90"
+            android:textSize="16dp" />
+
+        <!--播放进度条-->
+        <SeekBar
+            android:id="@+id/video_sk_position"
+            style="@android:style/Widget.SeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:maxHeight="6dp"
+            android:minHeight="6dp"
+            android:progress="40"
+            android:progressDrawable="@drawable/video_seekbar_drawable"
+            android:thumb="@drawable/video_progress_thumb"
+            android:thumbOffset="0dp" />
+
+        <!--视频总时长-->
+        <TextView
+            android:id="@+id/video_tv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"
+            android:textColor="@color/white_90"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <!--控制按钮栏-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_video_bottom_control"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@id/back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_video_exit" />
+
+        <ImageView
+            android:id="@+id/video_iv_pre"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_video_pre" />
+
+        <ImageView
+            android:id="@+id/video_iv_pause"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_video_play" />
+
+        <ImageView
+            android:id="@+id/video_iv_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_video_next" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/btn_video_fullscreen" />
+    </LinearLayout>
+</LinearLayout>
