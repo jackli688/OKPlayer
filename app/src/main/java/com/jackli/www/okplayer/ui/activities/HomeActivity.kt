@@ -124,10 +124,10 @@ class HomeActivity : BaseActivity() {
     private fun updateTab(position: Int, tab: TextView?, tabPosition: Int) {
 
         //变色
-        tab!!.isSelected = position == position
+        tab!!.isSelected = position == tabPosition
 
         //缩放
-        if (position == tabPosition) {
+        if (tab.isSelected) {
             ViewCompat.animate(tab).scaleX(1.1f).scaleY(1.1f).setDuration(200).start()
         } else {
             ViewCompat.animate(tab).scaleY(0.9f).scaleY(0.9f).setDuration(200).start()

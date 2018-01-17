@@ -30,10 +30,10 @@ class VideoPlayerActivity : BaseActivity() {
 
     private var mVideoView: VideoView? = null
     private var mLl_top: LinearLayout? = null
-    private var mIv_pause: ImageView? = null
+    private var mLv_pause: ImageView? = null
     private var mTv_title: TextView? = null
-    private var mIv_battery: ImageView? = null
-    private var mTv_system_time: TextView? = null
+    private var mLv_battery: ImageView? = null
+    private var mLv_system_time: TextView? = null
     private var mSk_volume: SeekBar? = null
     private var mIv_mute: ImageView? = null
     private var mAlpha_cover: View? = null
@@ -73,10 +73,10 @@ class VideoPlayerActivity : BaseActivity() {
         mLl_bottom = findViewById(R.id.video_ll_bottom)
 
         //顶部面板
-        mIv_pause = findViewById(R.id.video_iv_pause)
+        mLv_pause = findViewById(R.id.video_iv_pause)
         mTv_title = findViewById(R.id.video_tv_title)
-        mIv_battery = findViewById(R.id.video_iv_battery)
-        mTv_system_time = findViewById(R.id.video_tv_system_time)
+        mLv_battery = findViewById(R.id.video_iv_battery)
+        mLv_system_time = findViewById(R.id.video_tv_system_time)
         mSk_volume = findViewById(R.id.video_sk_volume)
         mIv_mute = findViewById(R.id.video_iv_mute)
         mAlpha_cover = findViewById(R.id.alpha_cover)
@@ -94,7 +94,7 @@ class VideoPlayerActivity : BaseActivity() {
 
     override fun initListener() {
         //注册点击监听
-        mIv_pause!!.setOnClickListener(this)
+        mLv_pause!!.setOnClickListener(this)
         mIv_mute!!.setOnClickListener(this)
         mIv_pre!!.setOnClickListener(this)
         mIv_next!!.setOnClickListener(this)
@@ -184,7 +184,7 @@ class VideoPlayerActivity : BaseActivity() {
      */
     private fun updateSystemTime() {
         LogUtils.d(TAG, "VideoPlayerActivity.updateSystemTime,=" + System.currentTimeMillis())
-        mTv_system_time!!.text = StringUtils.formatSystemTime()
+        mLv_system_time!!.text = StringUtils.formatSystemTime()
 
         mHandler!!.sendEmptyMessageDelayed(MSG_UPDATE_SYSTEM_TIME, 500)
     }
@@ -371,10 +371,10 @@ class VideoPlayerActivity : BaseActivity() {
     private fun updatePauseBtn() {
         if (mVideoView!!.isPlaying) {
             //播放状态，放置暂停按钮
-            mIv_pause!!.setImageResource(R.drawable.btn_video_pause)
+            mLv_pause!!.setImageResource(R.drawable.btn_video_pause)
         } else {
             //暂停状态,放置播放按钮
-            mIv_pause!!.setImageResource(R.drawable.btn_video_play)
+            mLv_pause!!.setImageResource(R.drawable.btn_video_play)
         }
     }
 
@@ -403,12 +403,12 @@ class VideoPlayerActivity : BaseActivity() {
     private fun updateBatteryPic(level: Int) {
         LogUtils.d(TAG, "VideoPlayerActivity.updateBatteryPic,level=" + level)
         when {
-            level < 10 -> mIv_battery!!.setImageResource(R.mipmap.ic_battery_0)
-            level < 20 -> mIv_battery!!.setImageResource(R.mipmap.ic_battery_10)
-            level < 40 -> mIv_battery!!.setImageResource(R.mipmap.ic_battery_40)
-            level < 60 -> mIv_battery!!.setImageResource(R.mipmap.ic_battery_60)
-            level < 80 -> mIv_battery!!.setImageResource(R.mipmap.ic_battery_80)
-            else -> mIv_battery!!.setImageResource(R.mipmap.ic_battery_100)
+            level < 10 -> mLv_battery!!.setImageResource(R.mipmap.ic_battery_0)
+            level < 20 -> mLv_battery!!.setImageResource(R.mipmap.ic_battery_10)
+            level < 40 -> mLv_battery!!.setImageResource(R.mipmap.ic_battery_40)
+            level < 60 -> mLv_battery!!.setImageResource(R.mipmap.ic_battery_60)
+            level < 80 -> mLv_battery!!.setImageResource(R.mipmap.ic_battery_80)
+            else -> mLv_battery!!.setImageResource(R.mipmap.ic_battery_100)
         }
     }
 

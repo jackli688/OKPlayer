@@ -7,7 +7,7 @@
     android:background="@mipmap/base_bg"
     tools:context="com.jackli.www.okplayer.ui.activities.HomeActivity">
 
-
+    <!--划分上下显示的分隔线-->
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -77,9 +77,9 @@
     <!--导航栏下展示具体内容-->
     <android.support.v4.view.ViewPager
         android:id="@+id/home_viewpager"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:contentDescription="@string/home_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline"
