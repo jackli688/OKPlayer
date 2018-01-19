@@ -17,22 +17,9 @@ object StringUtils {
     // 将时间戳转换为 00:11, 01:00:11
     @SuppressLint("DefaultLocale")
     fun formatDuration(duration: Int): String {
-        // 获取日历对象
-        val calendar = Calendar.getInstance()
-        // 设置时间
-        calendar.timeInMillis = duration.toLong()
-        // 获取时分秒数据
-        val hours = calendar.get(Calendar.HOUR)
-        val minutes = calendar.get(Calendar.MINUTE)
-        val seconds = calendar.get(Calendar.SECOND)
-
-        //        // 获取日期对象
-        //        Date date = calendar.getTime();
-        //        // 获取时分秒数据
-        //        int hours = date.getHours();
-        //        int minutes = date.getMinutes();
-        //        int seconds = date.getSeconds();
-        //        LogUtils.e(TAG,"StringUtils.formatDuration,hours="+hours+";minutes="+minutes+";seconds="+seconds);
+        val hours = duration / 1000 / 3600
+        val minutes = duration / 1000 / 60 % 60
+        val seconds = duration / 1000 % 60
         return if (hours < 1) {
             // 小于一小时 00:11
             String.format("%02d:%02d", minutes, seconds)

@@ -14,10 +14,14 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.SeekBar
+import android.widget.TextView
 import com.jackli.www.okplayer.R
 import com.jackli.www.okplayer.model.bean.VideoItem
 import com.jackli.www.okplayer.ui.activities.base.BaseActivity
+import com.jackli.www.okplayer.ui.widgets.VideoView
 import com.jackli.www.okplayer.utils.LogUtils
 import com.jackli.www.okplayer.utils.StringUtils
 import java.util.*
@@ -54,6 +58,8 @@ class VideoPlayerActivity : BaseActivity() {
     private var startAlpha: Float = 0.toFloat()
     private var mVideoReceiver: VideoReceiver? = null
     private var mBack: View? = null
+    private var mFull_screen: ImageView? = null
+    private var isCompletion: Boolean? = false
 
     //获取当前的音量
     private val currentVolume: Int
@@ -65,6 +71,10 @@ class VideoPlayerActivity : BaseActivity() {
             when (msg.what) {
                 MSG_UPDATE_SYSTEM_TIME -> updateSystemTime()
                 MSG_UPDATE_POSITION -> startUpdatePosition()
+                MSG_SHOW_FULLSCREEN -> {
+                    isControlShowing = true
+                    switchControl()
+                }
             }
             false
         })
@@ -82,11 +92,12 @@ class VideoPlayerActivity : BaseActivity() {
         mAlpha_cover = findViewById(R.id.alpha_cover)
 
         //底部面板
-        mTv_position = findViewById(R.id.video_tv_position)
+        mTv_position = findViewById(R.id.video_tv_position)        //当前视频播放的进度
         mSk_position = findViewById(R.id.video_sk_position)
-        mTv_duration = findViewById(R.id.video_tv_duration)
+        mTv_duration = findViewById(R.id.video_tv_duration)       //视频总时长
         mIv_pre = findViewById(R.id.video_iv_pre)
         mIv_next = findViewById(R.id.video_iv_next)
+        mFull_screen = findViewById(R.id.video_iv_fullscreen)     //屏幕大小切换
 
         //返回键
         mBack = findViewById(R.id.back)
@@ -116,16 +127,25 @@ class VideoPlayerActivity : BaseActivity() {
         val filter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         mVideoReceiver = VideoReceiver()
         registerReceiver(mVideoReceiver, filter)
+
+        //屏幕大小显示监听
+        mFull_screen!!.setOnClickListener(this)
     }
 
     override fun initData() {
-        //获取数据
-        mVideoItems = intent.getParcelableArrayListExtra("videoItems")
-        LogUtils.d(TAG, "VideoPlayerActivity.initData," + mVideoItems!!)
-        mPosition = intent.getIntExtra("position", -1)
+//        val data = intent.data
+//        if (data == null) {
+            //播放视频
+//            mVideoView!!.setVideoURI(data)
+//        } else {
+            //获取数据
+            mVideoItems = intent.getParcelableArrayListExtra("videoItems")
+            LogUtils.d(TAG, "VideoPlayerActivity.initData," + mVideoItems!!)
+            mPosition = intent.getIntExtra("position", -1)
 
-        //播放用户选中的视频
-        if (playItem()) return
+            //播放用户选中的视频
+            if (playItem()) return
+//        }
 
         //开启系统时间更新
         updateSystemTime()
@@ -189,6 +209,7 @@ class VideoPlayerActivity : BaseActivity() {
         mHandler!!.sendEmptyMessageDelayed(MSG_UPDATE_SYSTEM_TIME, 500)
     }
 
+
     private fun playItem(): Boolean {
         //健壮性检查
         if (mVideoItems!!.size == 0 || mPosition == -1)
@@ -208,12 +229,31 @@ class VideoPlayerActivity : BaseActivity() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        if (!mVideoView!!.isPlaying) {
+            mVideoView!!.start()
+            startUpdatePosition()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (mVideoView!!.isPlaying && !(isCompletion!!)) {
+            mVideoView!!.pause()
+            mHandler!!.removeMessages(MSG_UPDATE_POSITION)
+        }
+    }
+
     override fun subscribeClick(view: View) {
         when (view.id) {
             R.id.video_iv_pause -> updatePauseStatus()
             R.id.video_iv_mute -> updateMuteStatus()
             R.id.video_iv_pre -> playPre()
             R.id.video_iv_next -> playNext()
+            R.id.video_iv_fullscreen -> {
+                mVideoView!!.switchFullScreen()
+            }
         }
     }
 
@@ -289,8 +329,21 @@ class VideoPlayerActivity : BaseActivity() {
     private inner class OnVideoGestureListener : GestureDetector.SimpleOnGestureListener() {
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
             LogUtils.d(TAG, "OnVideoGestureListener.onSingleTapConfirmed,")
-            switchControl()
+            if (isControlShowing && e.action != MotionEvent.ACTION_UP) {
+            } else {
+                switchControl()
+            }
             return super.onSingleTapConfirmed(e)
+        }
+
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
+            LogUtils.d(TAG, "onDoubleTap")
+            mVideoView!!.switchFullScreen()
+            return super.onDoubleTap(e)
+        }
+
+        override fun onLongPress(e: MotionEvent?) {
+            updatePauseStatus()
         }
     }
 
@@ -298,6 +351,7 @@ class VideoPlayerActivity : BaseActivity() {
      * 切换控制面板的显示状态
      */
     private fun switchControl() {
+//        mHandler!!.removeMessages(MSG_SHOW_FULLSCREEN)
         if (isControlShowing) {
             //显示状态，将面板隐藏
             ViewCompat.animate(mLl_top).translationY((-mLl_top!!.height).toFloat()).setDuration(500).start()
@@ -306,6 +360,8 @@ class VideoPlayerActivity : BaseActivity() {
             //隐藏状态,将面板显示出来
             ViewCompat.animate(mLl_top).translationY(0f).setDuration(500).start()
             ViewCompat.animate(mLl_bottom).translationY(0f).setDuration(500).start()
+            //开始计时，到时间后，自动隐藏，并把标记为恢复
+//            mHandler!!.sendEmptyMessageDelayed(MSG_SHOW_FULLSCREEN, 5000)
         }
         isControlShowing = !isControlShowing
     }
@@ -320,7 +376,12 @@ class VideoPlayerActivity : BaseActivity() {
             }
             when (seekBar.id) {
                 R.id.video_sk_volume -> updateVolume(progress)
-                R.id.video_sk_position -> mVideoView!!.seekTo(progress)
+                R.id.video_sk_position -> {
+//                    updatePauseStatus()
+                    mHandler!!.removeMessages(MSG_UPDATE_POSITION)
+                    mVideoView!!.seekTo(progress)
+                    startUpdatePosition()
+                }
             }
         }
 
@@ -352,6 +413,7 @@ class VideoPlayerActivity : BaseActivity() {
     private fun startUpdatePosition() {
         val position = mVideoView!!.currentPosition
         updatePosition(position)
+        mHandler!!.sendEmptyMessageDelayed(MSG_UPDATE_POSITION, 900)
     }
 
     /**
@@ -381,7 +443,9 @@ class VideoPlayerActivity : BaseActivity() {
     private inner class OnVideoCompletionListener : MediaPlayer.OnCompletionListener {
 
         override fun onCompletion(mp: MediaPlayer) {
-
+            mHandler!!.removeMessages(MSG_UPDATE_POSITION)
+            mp.pause()
+            isCompletion = true
         }
     }
 
@@ -423,6 +487,7 @@ class VideoPlayerActivity : BaseActivity() {
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                mHandler!!.removeMessages(MSG_SHOW_FULLSCREEN)
                 //手指起始位置
                 mStartY = event.y
                 mStartVolume = currentVolume
@@ -449,6 +514,9 @@ class VideoPlayerActivity : BaseActivity() {
                     //屏幕右半侧,修改音量
                     turnVolume(-movePercent)
                 }
+            }
+            MotionEvent.ACTION_UP -> {
+                mHandler!!.sendEmptyMessageDelayed(MSG_SHOW_FULLSCREEN, 5000)
             }
         }
         return true
@@ -487,5 +555,7 @@ class VideoPlayerActivity : BaseActivity() {
 
         private val MSG_UPDATE_SYSTEM_TIME = 0
         private val MSG_UPDATE_POSITION = 1
+        private val MSG_SHOW_FULLSCREEN = 2
+
     }
 }
