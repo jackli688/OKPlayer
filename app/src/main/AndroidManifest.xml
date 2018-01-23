@@ -25,6 +25,7 @@
         <activity android:name=".ui.activities.HomeActivity" />
         <activity
             android:name=".ui.activities.VideoPlayerActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
@@ -36,7 +37,9 @@
 
                 <data android:scheme="rtsp" />
             </intent-filter>
-            <intent-filter android:scheme="http" tools:ignore="AppLinkUrlError">
+            <intent-filter
+                android:scheme="http"
+                tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 

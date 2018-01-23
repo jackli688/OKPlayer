@@ -1,5 +1,7 @@
 package com.jackli.www.okplayer.ui.activities
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -7,6 +9,7 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.BatteryManager
+import android.os.Bundle
 import android.os.Handler
 import android.support.v4.view.ViewCompat
 import android.util.DisplayMetrics
@@ -25,6 +28,7 @@ import com.jackli.www.okplayer.ui.widgets.VideoView
 import com.jackli.www.okplayer.utils.LogUtils
 import com.jackli.www.okplayer.utils.StringUtils
 import java.util.*
+import kotlin.collections.ArrayList
 
 class VideoPlayerActivity : BaseActivity() {
     override val contentId: Int
@@ -133,11 +137,15 @@ class VideoPlayerActivity : BaseActivity() {
     }
 
     override fun initData() {
-//        val data = intent.data
-//        if (data == null) {
+        val data = intent.data
+        LogUtils.d(TAG, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%url:" + data)
+        if (data != null) {
             //播放视频
-//            mVideoView!!.setVideoURI(data)
-//        } else {
+            mVideoView!!.setVideoURI(data)
+            var path = data.path.trim()
+            var paths = path.split('/')
+            mTv_title!!.text = paths[paths.size - 1]
+        } else {
             //获取数据
             mVideoItems = intent.getParcelableArrayListExtra("videoItems")
             LogUtils.d(TAG, "VideoPlayerActivity.initData," + mVideoItems!!)
@@ -145,7 +153,7 @@ class VideoPlayerActivity : BaseActivity() {
 
             //播放用户选中的视频
             if (playItem()) return
-//        }
+        }
 
         //开启系统时间更新
         updateSystemTime()
@@ -309,6 +317,7 @@ class VideoPlayerActivity : BaseActivity() {
     private fun updatePreAndNextBtn() {
         mIv_pre!!.isEnabled = mPosition > 0
         mIv_next!!.isEnabled = mPosition < mVideoItems!!.size - 1
+
     }
 
     /**
@@ -351,19 +360,30 @@ class VideoPlayerActivity : BaseActivity() {
      * 切换控制面板的显示状态
      */
     private fun switchControl() {
-//        mHandler!!.removeMessages(MSG_SHOW_FULLSCREEN)
+        mHandler!!.removeMessages(MSG_SHOW_FULLSCREEN)
         if (isControlShowing) {
             //显示状态，将面板隐藏
-            ViewCompat.animate(mLl_top).translationY((-mLl_top!!.height).toFloat()).setDuration(500).start()
-            ViewCompat.animate(mLl_bottom).translationY(mLl_bottom!!.height.toFloat()).setDuration(500).start()
+            var values = floatArrayOf(0.0f, -mLl_top!!.height.toFloat())
+            startAnimator(mLl_top!!, values)
+            values = floatArrayOf(0.0f, mLl_bottom!!.height.toFloat())
+            startAnimator(mLl_bottom!!, values)
         } else {
             //隐藏状态,将面板显示出来
-            ViewCompat.animate(mLl_top).translationY(0f).setDuration(500).start()
-            ViewCompat.animate(mLl_bottom).translationY(0f).setDuration(500).start()
+            var values = floatArrayOf(-mLl_top!!.height.toFloat(), 0.0f)
+            startAnimator(mLl_top!!, values)
+            values = floatArrayOf(-mLl_bottom!!.height.toFloat(), 0.0f)
+            startAnimator(mLl_bottom!!, values)
             //开始计时，到时间后，自动隐藏，并把标记为恢复
-//            mHandler!!.sendEmptyMessageDelayed(MSG_SHOW_FULLSCREEN, 5000)
+            mHandler!!.sendEmptyMessageDelayed(MSG_SHOW_FULLSCREEN, 5000)
         }
         isControlShowing = !isControlShowing
+    }
+
+    private fun startAnimator(obj: View, values: FloatArray) {
+        val topAnimator = ObjectAnimator.ofFloat(obj, "translationY", *values)
+        topAnimator.repeatMode = ObjectAnimator.REVERSE
+        topAnimator.duration = 500
+        topAnimator.start()
     }
 
     private inner class OnVideoSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
@@ -558,4 +578,5 @@ class VideoPlayerActivity : BaseActivity() {
         private val MSG_SHOW_FULLSCREEN = 2
 
     }
+
 }
