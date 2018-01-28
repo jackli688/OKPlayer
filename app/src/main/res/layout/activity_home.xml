@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/base_bg"
-    tools:context="com.jackli.www.okplayer.ui.activities.HomeActivity">
+    tools:context="com.jackli.www.servers.ui.activities.HomeActivity">
 
     <!--划分上下显示的分隔线-->
     <android.support.constraint.Guideline

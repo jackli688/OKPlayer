@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jackli.www.okplayer.ui.activities.VideoPlayerActivity"
+    tools:context="com.jackli.www.servers.ui.activities.VideoPlayerActivity"
     tools:layout_editor_absoluteY="25dp">
 
     <!--视频播放模块-->
-    <com.jackli.www.okplayer.ui.widgets.VideoView
+    <com.jackli.www.servers.ui.widgets.VideoView
         android:id="@+id/videoview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
