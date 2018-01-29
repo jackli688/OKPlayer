@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jackli.www.servers.ui.activities.VideoPlayerActivity">
+    tools:context="com.jackli.www.okplayer.ui.activities.VideoPlayerActivity">
 
     <!--用RelativeLayout包裹一层，是因为自定义的VideoView根据视频大小切换在ConstraintLayout中效果实现不了-->
     <RelativeLayout
@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <!--视频播放模块-->
-        <com.jackli.www.servers.ui.widgets.VideoView
+        <com.jackli.www.okplayer.ui.widgets.VideoView
             android:id="@+id/videoview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

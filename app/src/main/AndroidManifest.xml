@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.jackli.www.servers">
+    package="com.jackli.www.okplayer">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.jackli.www.servers.ui.activities.SplashActivity"
+            android:name="com.jackli.www.okplayer.ui.activities.SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jackli.www.servers.ui.activities.HomeActivity" />
+        <activity android:name="com.jackli.www.okplayer.ui.activities.HomeActivity" />
         <activity
-            android:name="com.jackli.www.servers.ui.activities.VideoPlayerActivity"
+            android:name="com.jackli.www.okplayer.ui.activities.VideoPlayerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
@@ -60,6 +60,8 @@
                 <data android:mimeType="video/3gpp2" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.jackli.www.okplayer.ui.activities.AudioPlayerActivity" />
     </application>
 
 </manifest>

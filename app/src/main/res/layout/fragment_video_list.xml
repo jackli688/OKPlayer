@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/white_90"
-        android:dividerHeight="1dp" />
+    <include layout="@layout/simple_listview" />
 
 </LinearLayout>
