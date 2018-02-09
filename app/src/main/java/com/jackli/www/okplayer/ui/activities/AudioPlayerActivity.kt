@@ -293,4 +293,8 @@ class AudioPlayerActivity : BaseActivity() {
         super.onDestroy()
         LogUtils.e("onAudioReceiver", "播放界面销毁了")
     }
+
+    fun onTest(): Boolean {
+        return true
+    }
 }
