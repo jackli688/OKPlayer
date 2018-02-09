@@ -5,8 +5,8 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.jackli.www.okplayer"
-        minSdkVersion 23
-        targetSdkVersion 26
+        minSdkVersion 16
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

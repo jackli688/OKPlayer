@@ -21,8 +21,10 @@ class AudioItem : Parcelable {
 
     // 成员变量
     var title: String? = null
+        get() = field
     var path: String? = null
     var artist: String? = null
+        get() = field
 
 
     override fun describeContents(): Int {

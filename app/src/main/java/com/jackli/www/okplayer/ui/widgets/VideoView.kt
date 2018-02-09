@@ -4,23 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.media.MediaPlayer.OnCompletionListener
-import android.media.MediaPlayer.OnErrorListener
-import android.media.MediaPlayer.OnInfoListener
+import android.media.MediaPlayer.*
 import android.net.Uri
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.SurfaceHolder
-import android.view.SurfaceView
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.MediaController
-
+import com.jackli.www.okplayer.utils.LogUtils
 import java.io.IOException
 
 /**
@@ -81,7 +73,7 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
         private set
 
     internal var mSizeChangedListener: MediaPlayer.OnVideoSizeChangedListener = MediaPlayer.OnVideoSizeChangedListener { mp, width, height ->
-        Log.d(TAG, "onVideoSizeChanged:mp.width:" + mp.videoWidth +
+        LogUtils.d(TAG, "onVideoSizeChanged:mp.width:" + mp.videoWidth +
                 ",mp.height:" + mp.videoHeight + ",width:" + width + ",height:" + height)
         mVideoWidth = mp.videoWidth
         mVideoHeight = mp.videoHeight
@@ -117,7 +109,7 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
         if (mMediaController != null) {
             mMediaController!!.isEnabled = true
         }
-        Log.d(TAG, "onPrepared:mp.getWidth:" + mp.videoWidth + ",mp.getVideoHeight:" + mp.videoHeight)
+        LogUtils.d(TAG, "onPrepared:mp.getWidth:" + mp.videoWidth + ",mp.getVideoHeight:" + mp.videoHeight)
         mVideoWidth = mp.videoWidth
         mVideoHeight = mp.videoHeight
 
@@ -126,7 +118,7 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
             seekTo(seekToPosition)
         }
         if (mVideoWidth != 0 && mVideoHeight != 0) {
-            //Log.i("@@@@", "video size: " + mVideoWidth +"/"+ mVideoHeight);
+            //LogUtils.i("@@@@", "video size: " + mVideoWidth +"/"+ mVideoHeight);
             holder.setFixedSize(mVideoWidth, mVideoHeight)
             if (mSurfaceWidth == mVideoWidth && mSurfaceHeight == mVideoHeight) {
                 // We didn't actually change the size (it was already at the size
@@ -165,7 +157,7 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
     }
 
     private val mErrorListener = OnErrorListener { mp, framework_err, impl_err ->
-        Log.d(TAG, "Error: $framework_err,$impl_err")
+        LogUtils.d(TAG, "Error: $framework_err,$impl_err")
         mCurrentState = STATE_ERROR
         mTargetState = STATE_ERROR
         if (mMediaController != null) {
@@ -270,37 +262,37 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        //Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
+        //LogUtils.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
         //        + MeasureSpec.toString(heightMeasureSpec) + ")");
-        Log.d(TAG, "/////////////////////////////////////////////////////")
+        LogUtils.d(TAG, "/////////////////////////////////////////////////////")
         var width = View.getDefaultSize(mVideoWidth, widthMeasureSpec)
         var height = View.getDefaultSize(mVideoHeight, heightMeasureSpec)
-        Log.d(TAG, "屏幕默宽高：$width,$height")
+        LogUtils.d(TAG, "屏幕默宽高：$width,$height")
         if (mVideoWidth > 0 && mVideoHeight > 0) {
-            Log.d(TAG, "mVideoWidth:$mVideoWidth,mVideoHeight:$mVideoHeight")
+            LogUtils.d(TAG, "mVideoWidth:$mVideoWidth,mVideoHeight:$mVideoHeight")
             val widthSpecMode = View.MeasureSpec.getMode(widthMeasureSpec)
             val widthSpecSize = View.MeasureSpec.getSize(widthMeasureSpec)
             val heightSpecMode = View.MeasureSpec.getMode(heightMeasureSpec)
             val heightSpecSize = View.MeasureSpec.getSize(heightMeasureSpec)
 
             if (widthSpecMode == View.MeasureSpec.EXACTLY && heightSpecMode == View.MeasureSpec.EXACTLY) {
-                Log.d(TAG, "宽高的值都为精准值,测量的控件的宽:" + width + "高度:" + height)
+                LogUtils.d(TAG, "宽高的值都为精准值,测量的控件的宽:" + width + "高度:" + height)
                 // the size is fixed
                 width = widthSpecSize
                 height = heightSpecSize
 
                 // for compatibility, we adjust size based on aspect ratio
                 if (mVideoWidth * height < width * mVideoHeight) {
-                    //Log.i("@@@", "image too wide, correcting");
+                    //LogUtils.i("@@@", "image too wide, correcting");
                     width = height * mVideoWidth / mVideoHeight
-                    Log.d(TAG, "image too wide, correcting,width:" + width)
+                    LogUtils.d(TAG, "image too wide, correcting,width:" + width)
                 } else if (mVideoWidth * height > width * mVideoHeight) {
-                    //Log.i("@@@", "image too tall, correcting");
+                    //LogUtils.i("@@@", "image too tall, correcting");
                     height = width * mVideoHeight / mVideoWidth
-                    Log.d(TAG, "image too tall, correcting,height:" + height)
+                    LogUtils.d(TAG, "image too tall, correcting,height:" + height)
                 }
             } else if (widthSpecMode == View.MeasureSpec.EXACTLY) {
-                Log.d(TAG, "只有宽度是精确值")
+                LogUtils.d(TAG, "只有宽度是精确值")
                 // only the width is fixed, adjust the height to match aspect ratio if possible
                 width = widthSpecSize
                 height = width * mVideoHeight / mVideoWidth
@@ -309,7 +301,7 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
                     height = heightSpecSize
                 }
             } else if (heightSpecMode == View.MeasureSpec.EXACTLY) {
-                Log.d(TAG, "只有高度是精确值")
+                LogUtils.d(TAG, "只有高度是精确值")
                 // only the height is fixed, adjust the width to match aspect ratio if possible
                 height = heightSpecSize
                 width = height * mVideoWidth / mVideoHeight
@@ -318,7 +310,7 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
                     width = widthSpecSize
                 }
             } else {
-                Log.d(TAG, "宽高都都是wrapContent")
+                LogUtils.d(TAG, "宽高都都是wrapContent")
                 // neither the width nor the height are fixed, try to use actual video size
                 width = mVideoWidth
                 height = mVideoHeight
@@ -335,15 +327,15 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
             }
         } else {
             // no size yet, just adopt the given spec sizes
-            //            Log.d(TAG, "measure width:" + width + ",height:" + height);
-            Log.d(TAG, "*************************************")
-            Log.d(TAG, "video的宽高为0")
-            Log.d(TAG, "**************************************")
+            //            LogUtils.d(TAG, "measure width:" + width + ",height:" + height);
+            LogUtils.d(TAG, "*************************************")
+            LogUtils.d(TAG, "video的宽高为0")
+            LogUtils.d(TAG, "**************************************")
             //            width = 960;
             //            height = 540;
         }
         setMeasuredDimension(width, height)
-        Log.d(TAG, "/////////最终的宽高是,width:$width,height:$height")
+        LogUtils.d(TAG, "/////////最终的宽高是,width:$width,height:$height")
         // 记录原始的控件大小
         mDefaultH = height
         mDefaultW = width
@@ -449,13 +441,13 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
             mCurrentState = STATE_PREPARING
             attachMediaController()
         } catch (ex: IOException) {
-            Log.w(TAG, "Unable to open content: " + mUri!!, ex)
+            LogUtils.w(TAG, "Unable to open content: " + mUri!!, ex)
             mCurrentState = STATE_ERROR
             mTargetState = STATE_ERROR
             mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0)
             return
         } catch (ex: IllegalArgumentException) {
-            Log.w(TAG, "Unable to open content: " + mUri!!, ex)
+            LogUtils.w(TAG, "Unable to open content: " + mUri!!, ex)
             mCurrentState = STATE_ERROR
             mTargetState = STATE_ERROR
             mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0)
@@ -691,13 +683,13 @@ class VideoView : SurfaceView, MediaController.MediaPlayerControl {
             // 全屏状态，切换到默认大小
             layoutParams.width = mDefaultW
             layoutParams.height = mDefaultH
-            Log.d(TAG, "***********全屏切换到非全屏，width:$mDefaultW,height:$mDefaultH**********************")
+            LogUtils.d(TAG, "***********全屏切换到非全屏，width:$mDefaultW,height:$mDefaultH**********************")
         } else {
-            //            LogUtils.e(TAG,"VideoView.switchFullScreen,mDefaultW="+mDefaultW+";mScreenW="+mScreenW+";isFullSreen="+isFullSreen);
+            //            LogUtilsUtils.e(TAG,"VideoView.switchFullScreen,mDefaultW="+mDefaultW+";mScreenW="+mScreenW+";isFullSreen="+isFullSreen);
             // 非全屏状态，切换到全屏大小
             layoutParams.width = mScreenW
             layoutParams.height = mScreenH
-            Log.d(TAG, "********非全屏切换到全屏，width:$mScreenW,height:$mScreenH******************************")
+            LogUtils.d(TAG, "********非全屏切换到全屏，width:$mScreenW,height:$mScreenH******************************")
         }
         // 刷新控件大小
         requestLayout()

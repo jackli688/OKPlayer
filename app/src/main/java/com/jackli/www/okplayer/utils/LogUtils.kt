@@ -4,10 +4,10 @@ import android.util.Log
 
 object LogUtils {
 
-    private val ENABLE = false
+    private val ENABLE = true
 
-    /** 打印一个 debug 等级的 log  */
     @JvmStatic
+            /** 打印一个 debug 等级的 log  */
     fun d(tag: String, msg: String) {
         if (ENABLE) {
             Log.d(tag, msg)
@@ -27,6 +27,12 @@ object LogUtils {
     fun e(tag: Class<*>, msg: String) {
         if (ENABLE) {
             Log.e(tag.simpleName, msg)
+        }
+    }
+
+    fun w(tag: String, s: String, ex: Exception) {
+        if (ENABLE) {
+            Log.w(tag, s, ex)
         }
     }
 }

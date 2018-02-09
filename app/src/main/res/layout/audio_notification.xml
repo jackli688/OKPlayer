@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/audio_notify_layout"
+    android:orientation="horizontal"
+    android:padding="6dp">
+
+    <!--icon-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon" />
+
+    <!--歌曲信息-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <!--歌曲名-->
+        <TextView
+            android:id="@+id/audio_notify_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="我爱我的祖国爸爸"
+            android:textColor="@color/white_100"
+            android:textSize="18sp" />
+
+        <!--歌手名-->
+        <TextView
+            android:id="@+id/audio_notify_tv_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="台湾宝宝"
+            android:textColor="@color/white_50"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!--上一曲-->
+    <ImageView
+        android:id="@+id/audio_notify_iv_pre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/icon_notification_pre" />
+
+    <!--下一曲-->
+    <ImageView
+        android:id="@+id/audio_notify_iv_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_notification_next" />
+
+</LinearLayout>

@@ -18,7 +18,7 @@ import android.widget.VideoView;
  * 获取服务器的url,然后调用本地的okPlayer来进行播放
  */
 public class MainActivity extends AppCompatActivity {
-//    private static final String URL = "http://192.168.31.123:8080/player_test/video/video1.mp4";
+    //    private static final String URL = "http://192.168.31.123:8080/player_test/video/video1.mp4";
     private static final String URL = "http://192.168.43.97:8080/player_test/video/oppo.mp4";
     String videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
@@ -71,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("clipboard", "videoview was click");
             }
         });
+
+
+        findViewById(R.id.startServer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent(MainActivity.this, MyServer.class));
+            }
+        });
     }
 
 
@@ -94,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
+
 
 }

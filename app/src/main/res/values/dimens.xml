@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="lyrics_highlight">16sp</dimen>
+    <dimen name="lyrics_normal">14sp</dimen>
+    <dimen name="lyrics_line_height">19sp</dimen>
+</resources>
