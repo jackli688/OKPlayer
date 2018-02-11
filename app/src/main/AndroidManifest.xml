@@ -62,6 +62,12 @@
             </intent-filter>
         </activity>
         <activity android:name="com.jackli.www.okplayer.ui.activities.AudioPlayerActivity" />
+        <activity
+            android:name="io.vov.vitamio.activity.InitActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <service android:name="com.jackli.www.okplayer.services.AudioService" />
     </application>

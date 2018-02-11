@@ -1,5 +1,6 @@
 package com.jackli.www.okplayer.services
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel.DEFAULT_CHANNEL_ID
 import android.app.NotificationManager
@@ -168,10 +169,10 @@ class AudioService : Service() {
          * 如果歌曲正在播放则暂停，否则开启播放
          */
         fun switchPauseStatus() {
-            if (this!!.getPlayStatus()!!)
-                mediaPlayer!!.pause()
+            if (this.getPlayStatus()!!)
+                mediaPlayer?.pause()
             else
-                mediaPlayer!!.start()
+                mediaPlayer?.start()
         }
 
         /**
@@ -190,6 +191,7 @@ class AudioService : Service() {
             return mPlayMode
         }
 
+        @SuppressLint("ApplySharedPref")
         fun switchPlayMode() {
             when (mPlayMode) {
                 PLAYMODE_ALL_REPEAT -> mPlayMode = PLAYMODE_SINGLE_REPEAT

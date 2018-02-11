@@ -65,6 +65,7 @@ class VideoPlayerActivity : BaseActivity() {
         get() = mAudioManager!!.getStreamVolume(AudioManager.STREAM_MUSIC)
 
     override fun initView() {
+        if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this)) return
         val mainLooper = mainLooper
         mHandler = Handler(mainLooper, Handler.Callback { msg ->
             when (msg.what) {

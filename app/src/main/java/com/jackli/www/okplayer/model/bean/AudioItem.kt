@@ -72,7 +72,7 @@ class AudioItem : Parcelable {
             //将游标移动到数据的最前面，才能解析出整个列表
             cursor.moveToPosition(-1)
             while (cursor.moveToNext()) {
-                videoItems.add(this!!.parseCursor(cursor)!!)
+                videoItems.add(this.parseCursor(cursor)!!)
             }
             return videoItems
         }
